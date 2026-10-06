@@ -79,7 +79,7 @@ So, the example code for creating and triggering the timer would be:
 
     /*
      * Now we want to trigger the timer. Callbacks of all of the
-     * timer instances binded to this timer will be executed after
+     * timer instances bound to this timer will be executed after
      * this call.
      */
     ioctl(utimer_info.fd, SNDRV_TIMER_IOCTL_TRIGGER, NULL);

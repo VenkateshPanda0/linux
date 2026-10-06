@@ -171,6 +171,9 @@ static void idle_call_stop_or_retain_tick(bool stop_tick)
 
 /**
  * cpuidle_idle_call - the main idle function
+ * @stop_tick: whether to stop the scheduler tick when the cpuidle governor
+ *	       is not consulted (true if the tick fired during the previous
+ *	       idle period)
  *
  * NOTE: no locks or semaphores should be used here
  *

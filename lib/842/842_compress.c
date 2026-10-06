@@ -465,12 +465,18 @@ static int process_next(struct sw842_param *p)
 }
 
 /**
- * sw842_compress
+ * sw842_compress - compress a buffer using the 842 compression format
+ * @in: Input buffer holding the uncompressed data.
+ * @ilen: Length of @in in bytes.
+ * @out: Output buffer.
+ * @olen: On entry, the size of @out in bytes; on return, the number of
+ *        bytes written to @out, or 0 on error.
+ * @wmem: Working memory of at least SW842_MEM_COMPRESS bytes.
  *
  * Compress the uncompressed buffer of length @ilen at @in to the output buffer
  * @out, using no more than @olen bytes, using the 842 compression format.
  *
- * Returns: 0 on success, error on failure.  The @olen parameter
+ * Return: 0 on success, error on failure.  The @olen parameter
  * will contain the number of output bytes written on success, or
  * 0 on error.
  */

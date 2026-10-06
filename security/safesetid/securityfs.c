@@ -264,14 +264,15 @@ static ssize_t safesetid_gid_file_write(struct file *file,
 }
 
 static ssize_t safesetid_file_read(struct file *file, char __user *buf,
-				   size_t len, loff_t *ppos, struct mutex *policy_update_lock, struct __rcu setid_ruleset* ruleset)
+				   size_t len, loff_t *ppos, struct mutex *policy_update_lock,
+				   struct setid_ruleset __rcu **ruleset)
 {
 	ssize_t res = 0;
 	struct setid_ruleset *pol;
 	const char *kbuf;
 
 	mutex_lock(policy_update_lock);
-	pol = rcu_dereference_protected(ruleset, lockdep_is_held(policy_update_lock));
+	pol = rcu_dereference_protected(*ruleset, lockdep_is_held(policy_update_lock));
 	if (pol) {
 		kbuf = pol->policy_str;
 		res = simple_read_from_buffer(buf, len, ppos,
@@ -286,14 +287,14 @@ static ssize_t safesetid_uid_file_read(struct file *file, char __user *buf,
 				   size_t len, loff_t *ppos)
 {
 	return safesetid_file_read(file, buf, len, ppos,
-				   &uid_policy_update_lock, safesetid_setuid_rules);
+				   &uid_policy_update_lock, &safesetid_setuid_rules);
 }
 
 static ssize_t safesetid_gid_file_read(struct file *file, char __user *buf,
 				   size_t len, loff_t *ppos)
 {
 	return safesetid_file_read(file, buf, len, ppos,
-				   &gid_policy_update_lock, safesetid_setgid_rules);
+				   &gid_policy_update_lock, &safesetid_setgid_rules);
 }
 
 
